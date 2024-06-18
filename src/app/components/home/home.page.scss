@@ -1,0 +1,109 @@
+.swiper-container {
+  position: relative;
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.swiper-pagination {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+.card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 30px 0;
+}
+
+ion-card {
+  width: 100%;
+  height: 300px;
+  border-radius: 15px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+  margin: 12px 12px;
+}
+
+ion-card img {
+  width: 100% !important;
+  height: 150px !important;
+  object-fit: cover !important;
+  border-bottom: 1px solid #ccc;
+  border-top-left-radius: 15px !important;
+  border-top-right-radius: 15px !important;
+  margin: 0;
+}
+
+ion-card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+ion-card-content {
+  padding: 10px;
+}
+
+ion-card-content p {
+  font-size: 1rem;
+  color: #666;
+}
+
+ion-button {
+  margin-top: 10px;
+  --background: #28a745;
+  --background-activated: #218838;
+  --background-focused: #218838;
+  --background-hover: #218838;
+  --color: #fff;
+}
+
+@media (min-width: 768px) {
+  ion-card {
+    width: 45%; /* Adjust the percentage for larger screens */
+  }
+}
+
+
+
+swiper-container {
+  --swiper-pagination-bullet-inactive-color: var(--ion-color-step-200, #cccccc);
+  --swiper-pagination-color: var(--ion-color-primary, #0054e9);
+  --swiper-pagination-progressbar-bg-color: rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.25);
+  --swiper-scrollbar-bg-color: rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.1);
+  --swiper-scrollbar-drag-bg-color: rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.5);
+}
+
+swiper-slide {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 18px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+swiper-slide img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
+}
+
+
+ion-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}

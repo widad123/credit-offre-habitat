@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Favoris</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item *ngFor="let offre of favoris">
+      <ion-label>
+        <h2>{{ offre.adresse }}</h2>
+        <p>{{ offre.prix }} €</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+<app-footer></app-footer>
