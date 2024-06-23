@@ -46,7 +46,11 @@ const routes: Routes = [
   {
     path: 'favoris',
     loadChildren: () => import('./components/favoris/favoris.module').then( m => m.FavorisPageModule)
+  },  {
+    path: 'historique',
+    loadChildren: () => import('./components/historique/historique.module').then( m => m.HistoriquePageModule)
   },
+
 
 ];
 
