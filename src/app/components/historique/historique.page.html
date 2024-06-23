@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Historique des simulations</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="property-card" *ngFor="let simulation of historiqueSimulations">
+    <div class="image-wrapper">
+      <img [src]="getFirstImage(simulation.offreImmobilier.images)" alt="Property Image">
+    </div>
+    <div class="content">
+      <h2>{{ simulation.offreImmobilier.typeBien }}</h2>
+      <div class="details">
+        <div class="price">€{{ simulation.offreImmobilier.prix }} /Total</div>
+        <button class="favoris-button" (click)="toggleFavoris(simulation.offreImmobilier.id)">
+          <ion-icon name="heart"></ion-icon>
+        </button>
+      </div>
+      <div class="info">
+        <span>{{ simulation.offreImmobilier.surface }} Surfaces</span>
+        <span>{{ simulation.offreImmobilier.chambres }} Chambres</span>
+        <span>{{ simulation.offreImmobilier.sallesDeBain }} Salles de bains</span>
+      </div>
+    </div>
+  </div>
+</ion-content>
+<app-footer></app-footer>
