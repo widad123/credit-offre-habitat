@@ -12,12 +12,12 @@
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <ion-item>
         <ion-label position="floating">Identifiant</ion-label>
-        <ion-input formControlName="email" type="text"></ion-input>
+        <ion-input formControlName="username" type="text"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position="floating">Mot de passe</ion-label>
-        <ion-input formControlName="motDePasse" [type]="passwordType"></ion-input>
+        <ion-input formControlName="password" [type]="passwordType"></ion-input>
         <ion-icon name="eye-off" slot="end" (click)="togglePasswordVisibility()"></ion-icon>
       </ion-item>
 

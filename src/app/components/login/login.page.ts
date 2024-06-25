@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from '../../services/user/user.service';
 import { Router } from '@angular/router';
-import { User } from '../../dto/model/user';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-login',
@@ -21,8 +20,8 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      motDePasse: ['', Validators.required],
+      username: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
       rememberMe: [false]
     });
   }
@@ -33,25 +32,10 @@ export class LoginPage implements OnInit {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      const {email, motDePasse} = this.loginForm.value;
-      console.log('Submitted email:', email);
-      console.log('Submitted password:', motDePasse);
-
-      this.userService.getAllUsers().subscribe({
-        next: (users: User[]) => {
-          console.log('Received users:', users);
-          const user = users.find(u => u.email === email && u.motDePasse === motDePasse);
-          if (user) {
-            console.log('User logged in:', user);
-            if (user.id) {  // Check if user.id is defined
-              localStorage.setItem('userId', user.id.toString());
-              this.router.navigate(['/home']);
-            } else {
-              console.error('User ID is undefined');
-            }
-          } else {
-            console.error('Login failed: invalid credentials');
-          }
+      const { username, password } = this.loginForm.value;
+      this.userService.login(username, password).subscribe({
+        next: (response) => {
+          this.router.navigate(['/home']);
         },
         error: (error) => {
           console.error('Login failed', error);
@@ -61,7 +45,8 @@ export class LoginPage implements OnInit {
       console.error('Form is invalid');
     }
   }
-    navigateToCreateUser() {
-      this.router.navigate(['/createUser']);
-    }
+
+  navigateToCreateUser() {
+    this.router.navigate(['/createUser']);
+  }
 }

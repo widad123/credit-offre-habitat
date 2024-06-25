@@ -6,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { RecommendationsPageRoutingModule } from './recommendations-routing.module';
 
-import { RecommendationsPage } from './recommendations.page';
+import { OffresImmobiliersPage } from './offresImmobiliers.page';
 import {SharedModuleModule} from "../module/shared-module/shared-module.module";
 
 @NgModule({
@@ -17,7 +17,7 @@ import {SharedModuleModule} from "../module/shared-module/shared-module.module";
     RecommendationsPageRoutingModule,
     SharedModuleModule
   ],
-  declarations: [RecommendationsPage],
+  declarations: [OffresImmobiliersPage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class RecommendationsPageModule {}

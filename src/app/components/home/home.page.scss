@@ -66,19 +66,29 @@ ion-button {
 
 @media (min-width: 768px) {
   ion-card {
-    width: 45%; /* Adjust the percentage for larger screens */
+    width: 45%;
   }
 }
 
 
 
 swiper-container {
-  --swiper-pagination-bullet-inactive-color: var(--ion-color-step-200, #cccccc);
-  --swiper-pagination-color: var(--ion-color-primary, #0054e9);
-  --swiper-pagination-progressbar-bg-color: rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.25);
-  --swiper-scrollbar-bg-color: rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.1);
-  --swiper-scrollbar-drag-bg-color: rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.5);
+  --swiper-pagination-bullet-inactive-color: #cccccc;
+  --swiper-pagination-color: #4C894A;
+  --swiper-pagination-bullet-size: 12px;
+  --swiper-pagination-bullet-horizontal-gap: 8px;
 }
+
+.swiper-pagination-bullet {
+  background-color: var(--swiper-pagination-bullet-inactive-color);
+  opacity: 1;
+  transition: background-color 0.3s;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: var(--swiper-pagination-color);
+}
+
 
 swiper-slide {
   display: flex;

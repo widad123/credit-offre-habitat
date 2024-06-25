@@ -13,8 +13,7 @@ export class NouveauteDetailPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private nouveauteBanqueService: NouveauteBanqueService
-  ) { }
+    private nouveauteBanqueService: NouveauteBanqueService) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');

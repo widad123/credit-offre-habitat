@@ -1,31 +1,33 @@
-import { Component, OnInit } from '@angular/core';
-import {OffreImmobilierResponse} from "../../dto/model/offreImmobilierResponse";
-import {ActivatedRoute} from "@angular/router";
-import {OffreImmobilierService} from "../../services/offreImmobilier/offre-immobilier.service";
-import {OverpassService} from "../../services/overpass/overpass.service";
-import {GeolocationService} from "../../services/geolocation/geolocation.service";
-import {OffreImmobilier} from "../../dto/model/offreImmobilier";
-import {NavController, ToastController} from "@ionic/angular";
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
+import { OffreImmobilierResponse } from "../../dto/model/offreImmobilierResponse";
+import { ActivatedRoute } from "@angular/router";
+import { OffreImmobilierService } from "../../services/offreImmobilier/offre-immobilier.service";
+import { OverpassService } from "../../services/overpass/overpass.service";
+import { GeolocationService } from "../../services/geolocation/geolocation.service";
+import { NavController, ToastController } from "@ionic/angular";
 import SwiperCore from "swiper";
-import {register} from "swiper/element/bundle";
-import {Navigation, Pagination} from "swiper/modules";
-import {FavorisService} from "../../services/favoris/favoris.service";
-
+import { register } from "swiper/element/bundle";
+import { Navigation, Pagination } from "swiper/modules";
+import { FavorisService } from "../../services/favoris/favoris.service";
+import {OffreImmobilier} from "../../dto/model/offreImmobilier";
 
 SwiperCore.use([Pagination, Navigation]);
 
-
 register();
+
 @Component({
   selector: 'app-offre-detail-component',
   templateUrl: './offre-detail-component.page.html',
   styleUrls: ['./offre-detail-component.page.scss'],
 })
-export class OffreDetailComponentPage implements OnInit {
+export class OffreDetailComponentPage implements OnInit, AfterViewInit {
+  @ViewChild('swiperContainer', { static: false }) swiperContainer!: ElementRef<HTMLElement>;
+
   offreResponse: OffreImmobilierResponse | undefined;
   lieuxProches: any[] = [];
   isFavori: boolean = false;
   userId!: number;
+
   constructor(
     private route: ActivatedRoute,
     private offreImmobilierService: OffreImmobilierService,
@@ -33,7 +35,8 @@ export class OffreDetailComponentPage implements OnInit {
     private geolocationService: GeolocationService,
     private navCtrl: NavController,
     private toastController: ToastController,
-    private favorisService: FavorisService
+    private favorisService: FavorisService,
+    private cdRef: ChangeDetectorRef
   ) {
     this.userId = Number(localStorage.getItem('userId'));
   }
@@ -47,19 +50,40 @@ export class OffreDetailComponentPage implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+    this.cdRef.detectChanges();
+  }
+
   async loadNearbyPlaces() {
     const coords = await this.geolocationService.getCurrentPosition();
-    this.overpassService.getNearbyPlaces(coords.lat, coords.lng, 'shop|amenity').subscribe((response) => {
-      this.lieuxProches = response.elements
-        .filter((element: { tags: { shop: string; amenity: string; }; }) => ['supermarket', 'pharmacy', 'hospital', 'convenience'].includes(element.tags.shop) || ['pharmacy', 'hospital'].includes(element.tags.amenity))
-        .map((element: { tags: { name: any; }; lat: number; lon: number; }) => ({
-          nom: element.tags.name,
-          distance: this.calculateDistance(coords.lat, coords.lng, element.lat, element.lon),
-          type: this.getPlaceType(element.tags),
-          icon: this.getPlaceIcon(element.tags)
-        }))
-        .slice(0, 2);
+    this.overpassService.getNearbyPlaces(coords.lat, coords.lng, 'shop|amenity').subscribe({
+      next: (response) => {
+        this.lieuxProches = response.elements
+          .filter((element: { tags: { shop: string; amenity: string; }; }) => ['supermarket', 'pharmacy', 'hospital', 'convenience'].includes(element.tags.shop) || ['pharmacy', 'hospital'].includes(element.tags.amenity))
+          .map((element: { tags: { name: any; }; lat: number; lon: number; }) => ({
+            nom: element.tags.name,
+            distance: this.calculateDistance(coords.lat, coords.lng, element.lat, element.lon),
+            type: this.getPlaceType(element.tags),
+            icon: this.getPlaceIcon(element.tags)
+          }))
+          .slice(0, 2);
+        this.cdRef.detectChanges(); // Update the view
+        this.initSwiper(); // Initialize Swiper after content update
+      },
+      error: (err) => {
+        console.error('Error fetching nearby places:', err);
+        this.showErrorMessage('Erreur lors de la récupération des lieux à proximité');
+      }
     });
+  }
+
+  initSwiper() {
+    if (this.swiperContainer && this.swiperContainer.nativeElement) {
+      const swiper = new SwiperCore(this.swiperContainer.nativeElement, {
+        pagination: { clickable: true },
+        navigation: true,
+      });
+    }
   }
 
   calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): string {
@@ -133,6 +157,7 @@ export class OffreDetailComponentPage implements OnInit {
       position: 'bottom'
     }).then(toast => toast.present());
   }
+
   partagerOffre() {
     const shareData = {
       title: 'Offre Immobilier',
@@ -154,6 +179,7 @@ export class OffreDetailComponentPage implements OnInit {
     });
     toast.present();
   }
+
   getChambresText(chambres: OffreImmobilier.ChambresEnum | undefined): string {
     switch (chambres) {
       case 'S1': return '1 Chambre';
@@ -181,7 +207,7 @@ export class OffreDetailComponentPage implements OnInit {
   getTypeBienText(typeBien: OffreImmobilier.TypeBienEnum | undefined): string {
     switch (typeBien) {
       case 'MAISON': return 'Maison';
-      case 'APARTMENT': return 'Appartement';
+      case 'APPARTEMENT': return 'Appartement';
       case 'VILLA': return 'Villa';
       case 'LOFT': return 'Loft';
       default: return 'Type de bien';
@@ -215,4 +241,7 @@ export class OffreDetailComponentPage implements OnInit {
     }
   }
 
+  getImageUrl(offre: any): string {
+    return offre?.images && offre.images.length > 0 ? offre.images[0].url : 'assets/placeholder-image.png';
+  }
 }

@@ -111,8 +111,9 @@
                 "output": "./svg"
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss"],
-            "scripts": []
+            "styles": ["src/global.scss", "src/theme/variables.scss","src/styles.css",
+              "node_modules/intl-tel-input/build/css/intlTelInput.css"],
+            "scripts": ["node_modules/intl-tel-input/build/js/utils.js"]
           },
           "configurations": {
             "ci": {

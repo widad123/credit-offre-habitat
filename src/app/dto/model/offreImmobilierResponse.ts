@@ -22,10 +22,10 @@ export interface OffreImmobilierResponse {
     ageProprieteOptions?: Array<OffreImmobilierResponse.AgeProprieteOptionsEnum>;
 }
 export namespace OffreImmobilierResponse {
-    export type TypeBienOptionsEnum = 'MAISON' | 'APARTMENT' | 'VILLA' | 'LOFT';
+    export type TypeBienOptionsEnum = 'MAISON' | 'APPARTEMENT' | 'VILLA' | 'LOFT';
     export const TypeBienOptionsEnum = {
         Maison: 'MAISON' as TypeBienOptionsEnum,
-        Apartment: 'APARTMENT' as TypeBienOptionsEnum,
+        Appartement: 'APPARTEMENT' as TypeBienOptionsEnum,
         Villa: 'VILLA' as TypeBienOptionsEnum,
         Loft: 'LOFT' as TypeBienOptionsEnum
     };
