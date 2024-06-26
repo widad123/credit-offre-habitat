@@ -20,5 +20,8 @@ export interface User {
     numeroTelephone?: number;
     adresse?: string;
     nouveauteBanque?: Array<string>;
+    duree?: number;
+    apport?: number;
+    mensualite?: number;
 }
 

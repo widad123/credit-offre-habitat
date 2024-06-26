@@ -1,19 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import {UserService} from "../../services/user/user.service";
 
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss'],
 })
-export class FooterComponent  implements OnInit {
-  constructor(private router: Router) { }
+export class FooterComponent {
+  activeSegment: string = 'home';
 
-  ngOnInit() {}
+  constructor(private router: Router, protected userService: UserService) {
+  }
+
   onSegmentChanged(event: any) {
-    const value = event.detail.value;
-    if (value) {
-      this.router.navigate([`/${value}`]);
-    }
+    this.activeSegment = event.detail.value;
+    this.router.navigate([`/${this.activeSegment}`]);
   }
 }

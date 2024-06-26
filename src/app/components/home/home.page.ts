@@ -5,7 +5,6 @@ import {Router} from "@angular/router";
 import {Information} from "../../dto/model/information";
 import {InformationService} from "../../services/information/information.service";
 import { register } from 'swiper/element/bundle';
-import SwiperOptions  from 'swiper';
 import Swiper from "swiper";
 
 register();
@@ -41,7 +40,8 @@ export class HomePage  implements OnInit {
 
   constructor(private nouveauteBanqueService: NouveauteBanqueService,
               private router: Router,
-              private informationService: InformationService) {}
+              private informationService: InformationService
+  ) {}
 
   ngOnInit() {
     this.loadNouveautes();

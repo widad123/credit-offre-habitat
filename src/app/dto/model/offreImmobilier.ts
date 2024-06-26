@@ -15,7 +15,7 @@ export interface OffreImmobilier {
     id?: number;
     typeBien: OffreImmobilier.TypeBienEnum;
     adresse: string;
-    prix: string;
+    prix: number;
     description?: string;
     listFavoris?: number;
     imageUrls?: Array<string>;
@@ -27,10 +27,10 @@ export interface OffreImmobilier {
     agePropriete?: OffreImmobilier.AgeProprieteEnum;
 }
 export namespace OffreImmobilier {
-    export type TypeBienEnum = 'MAISON' | 'APARTMENT' | 'VILLA' | 'LOFT';
+    export type TypeBienEnum = 'MAISON' | 'APPARTEMENT' | 'VILLA' | 'LOFT';
     export const TypeBienEnum = {
         Maison: 'MAISON' as TypeBienEnum,
-        Apartment: 'APARTMENT' as TypeBienEnum,
+        Appartement: 'APPARTEMENT' as TypeBienEnum,
         Villa: 'VILLA' as TypeBienEnum,
         Loft: 'LOFT' as TypeBienEnum
     };
