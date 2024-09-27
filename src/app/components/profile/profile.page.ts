@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {User} from "../../dto/model/user";
-import {UserService} from "../../services/user/user.service";
-import {Router} from "@angular/router";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { User } from '../../dto/model/user';
+import { UserService } from '../../services/user/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -12,6 +12,7 @@ import {Router} from "@angular/router";
 export class ProfilePage implements OnInit {
   profileForm: FormGroup;
   user: User | null = null;
+  simulationPanelOpen = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -23,18 +24,25 @@ export class ProfilePage implements OnInit {
       prenom: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       numeroTelephone: ['', Validators.required],
-      adresse: ['', Validators.required]
+      adresse: ['', Validators.required],
+      duree: ['', Validators.required],
+      apport: ['', Validators.required],
+      mensualite: ['', Validators.required]
     });
   }
 
   ngOnInit() {
+    if (!this.userService.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
     this.loadUserProfile();
   }
 
   loadUserProfile() {
-    const userId = localStorage.getItem('userId');
+    const userId = this.userService.getUserId();
     if (userId) {
-      this.userService.getUser(Number(userId)).subscribe({
+      this.userService.getUser(userId).subscribe({
         next: (user: User) => {
           this.user = user;
           this.profileForm.patchValue(user);
@@ -44,9 +52,13 @@ export class ProfilePage implements OnInit {
         }
       });
     } else {
-      console.error('No user ID found in local storage.');
+      console.error('No valid user ID found in local storage.');
       this.router.navigate(['/login']); // Redirect to login if no user ID is found
     }
+  }
+
+  toggleSimulationPanel() {
+    this.simulationPanelOpen = !this.simulationPanelOpen;
   }
 
   onSubmit() {
@@ -63,4 +75,12 @@ export class ProfilePage implements OnInit {
     }
   }
 
+  logout() {
+    this.userService.logout();
+    this.router.navigate(['/login']);
+  }
+
+  goToHistorique() {
+    this.router.navigate(['/historique-simulation']);
+  }
 }

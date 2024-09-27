@@ -1,4 +1,4 @@
-<ion-footer class="footer-toolbar">
+<ion-footer *ngIf="userService.isLoggedIn()" class="footer-toolbar" >
   <ion-toolbar>
     <ion-segment (ionChange)="onSegmentChanged($event)" [value]="activeSegment">
       <ion-segment-button value="home">

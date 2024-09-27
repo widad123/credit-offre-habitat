@@ -60,6 +60,6 @@
       <div><span class="span-apercu">Statut de la propriété:</span> <span class="span-response">{{ getStatutProprieteText(offreResponse?.offreImmobilier?.statutPropriete) }}</span></div>
       <div><span class="span-apercu">Ameublement:</span> <span class="span-response">{{ getAmeublementText(offreResponse?.offreImmobilier?.ameublement) }}</span></div>
     </div>
-    <ion-button class="btn-test" expand="block">Tester votre éligibilité</ion-button>
+    <ion-button (click)="testerEligibility()" class="btn-test" expand="block">Tester votre éligibilité</ion-button>
   </div>
 </ion-content>

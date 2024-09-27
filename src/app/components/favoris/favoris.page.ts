@@ -50,7 +50,7 @@ export class FavorisPage implements OnInit {
   }
 
   getImageUrl(offre: any): string {
-    return offre?.images && offre.images.length > 0 ? offre.images[0].url : 'assets/placeholder-image.png';
+    return offre?.imageUrls && offre.imageUrls.length > 0 ? offre.imageUrls[0] : 'assets/placeholder-image.png';
   }
 
   getChambresText(chambres: string | undefined): string {
@@ -73,5 +73,14 @@ export class FavorisPage implements OnInit {
       case 'B6': return '6 Salles de bain';
       default: return 'Salles de bain';
     }
+  }
+
+  formatAddress(address: string | undefined): string {
+    if (address) {
+      if (address.length > 20) {
+        return address.slice(0, 20) + '...';
+      }
+    }
+    return address || '';
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
 import { OffreImmobilierResponse } from "../../dto/model/offreImmobilierResponse";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { OffreImmobilierService } from "../../services/offreImmobilier/offre-immobilier.service";
 import { OverpassService } from "../../services/overpass/overpass.service";
 import { GeolocationService } from "../../services/geolocation/geolocation.service";
@@ -9,24 +9,25 @@ import SwiperCore from "swiper";
 import { register } from "swiper/element/bundle";
 import { Navigation, Pagination } from "swiper/modules";
 import { FavorisService } from "../../services/favoris/favoris.service";
-import {OffreImmobilier} from "../../dto/model/offreImmobilier";
+import { UserService } from "../../services/user/user.service";
+import { OffreImmobilier } from "../../dto/model/offreImmobilier";
 
 SwiperCore.use([Pagination, Navigation]);
 
 register();
 
 @Component({
-  selector: 'app-offre-detail-component',
-  templateUrl: './offre-detail-component.page.html',
-  styleUrls: ['./offre-detail-component.page.scss'],
+  selector: 'app-offre-detail',
+  templateUrl: './offre-detail.page.html',
+  styleUrls: ['./offre-detail.page.scss'],
 })
-export class OffreDetailComponentPage implements OnInit, AfterViewInit {
+export class OffreDetailPage implements OnInit, AfterViewInit {
   @ViewChild('swiperContainer', { static: false }) swiperContainer!: ElementRef<HTMLElement>;
 
   offreResponse: OffreImmobilierResponse | undefined;
   lieuxProches: any[] = [];
   isFavori: boolean = false;
-  userId!: number;
+  userId!: number | null;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,9 +37,11 @@ export class OffreDetailComponentPage implements OnInit, AfterViewInit {
     private navCtrl: NavController,
     private toastController: ToastController,
     private favorisService: FavorisService,
+    private userService: UserService,
+    private router: Router,
     private cdRef: ChangeDetectorRef
   ) {
-    this.userId = Number(localStorage.getItem('userId'));
+    this.userId = this.userService.getUserId();
   }
 
   ngOnInit() {
@@ -179,7 +182,6 @@ export class OffreDetailComponentPage implements OnInit, AfterViewInit {
     });
     toast.present();
   }
-
   getChambresText(chambres: OffreImmobilier.ChambresEnum | undefined): string {
     switch (chambres) {
       case 'S1': return '1 Chambre';
@@ -243,5 +245,11 @@ export class OffreDetailComponentPage implements OnInit, AfterViewInit {
 
   getImageUrl(offre: any): string {
     return offre?.images && offre.images.length > 0 ? offre.images[0].url : 'assets/placeholder-image.png';
+  }
+
+  testerEligibility() {
+    if (this.offreResponse?.offreImmobilier?.id) {
+      this.router.navigate(['/eligibility-result', this.offreResponse.offreImmobilier.id]);
+    }
   }
 }

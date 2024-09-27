@@ -16,15 +16,17 @@ import {AuthGuard} from "./interceptor/authGuard/auth-guard";
 
 register();
 @NgModule({
-  declarations: [AppComponent, WelcomePageComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule, HttpClientModule, SharedModuleModule],
-  providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}, {
-    provide: HTTP_INTERCEPTORS,
-    useClass: AuthInterceptor,
-    multi: true
-  },
-    AuthGuard],
-  bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    declarations: [AppComponent, WelcomePageComponent],
+    imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule, HttpClientModule, SharedModuleModule],
+    providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}, {
+        provide: HTTP_INTERCEPTORS,
+        useClass: AuthInterceptor,
+        multi: true
+    },
+        AuthGuard],
+    bootstrap: [AppComponent],
+    exports: [
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}

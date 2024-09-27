@@ -51,6 +51,7 @@ export class UserService {
       .pipe(
         map(response => {
           localStorage.setItem('token', response.token);
+          localStorage.setItem('userId', response.userId);
           return response;
         })
       );
@@ -58,6 +59,7 @@ export class UserService {
 
   logout(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('userId');
   }
 
   isLoggedIn(): boolean {
@@ -66,5 +68,18 @@ export class UserService {
 
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  getUserId(): number | null {
+    const userId = localStorage.getItem('userId');
+    return userId ? Number(userId) : null;
+  }
+
+  checkEligibilitie(userId: number, offreId: number): Observable<boolean> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.getToken()}`
+    });
+    return this.http.post<boolean>(`${this.apiUrl}/elegibilitie/${userId}/${offreId}`, {}, { headers });
   }
 }

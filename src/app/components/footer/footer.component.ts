@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import {UserService} from "../../services/user/user.service";
 
 @Component({
   selector: 'app-footer',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 export class FooterComponent {
   activeSegment: string = 'home';
 
-  constructor(private router: Router) {
+  constructor(private router: Router, protected userService: UserService) {
   }
 
   onSegmentChanged(event: any) {

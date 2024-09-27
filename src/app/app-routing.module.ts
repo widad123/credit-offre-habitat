@@ -60,6 +60,22 @@ const routes: Routes = [
     loadChildren: () => import('./components/search/search.module').then( m => m.SearchPageModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'eligibility-result/:id',
+    loadChildren: () => import('./components/eligibility-result/eligibility-result.module').then( m => m.EligibilityResultPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'historique-simulation',
+    loadChildren: () => import('./components/historique-simulation/historique-simulation.module').then( m => m.HistoriqueSimulationPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'suivi',
+    loadChildren: () => import('./components/suivi/suivi.module').then( m => m.SuiviPageModule),
+    canActivate: [AuthGuard]
+  }
+
 
 ];
 

@@ -17,7 +17,7 @@
         <ion-card-content>
           <ion-badge color="success" class="badge-type">{{ formatTypeBien(offre?.typeBien) }}</ion-badge>
           <h2>{{ offre?.prix }} €</h2>
-          <p>{{ offre?.adresse }}</p>
+          <p class="adresse">{{ formatAddress(offre?.adresse) }}</p>
           <p>
             {{ getChambresText(offre?.chambres) }} ·
             {{ getSallesDeBainText(offre?.sallesDeBain) }}
