@@ -13,14 +13,17 @@ import {register} from "swiper/element/bundle";
 import {SharedModuleModule} from "./components/module/shared-module/shared-module.module";
 import {AuthInterceptor} from "./interceptor/authInterceptor/auth-interceptor";
 import {AuthGuard} from "./interceptor/authGuard/auth-guard";
-import {PhoneInputComponent} from "./components/phone-input/phone-input.component";
 
 register();
 @NgModule({
-  declarations: [AppComponent, WelcomePageComponent,PhoneInputComponent],
-    imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule, HttpClientModule, SharedModuleModule],
-  providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy},{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-              AuthGuard],
+  declarations: [AppComponent, WelcomePageComponent],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, ReactiveFormsModule, HttpClientModule, SharedModuleModule],
+  providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  },
+    AuthGuard],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

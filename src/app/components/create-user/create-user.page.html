@@ -40,7 +40,7 @@
 
     <ion-item>
       <ion-label position="floating">Numéro de téléphone</ion-label>
-      <app-phone-input id="numeroTelephone" formControlName="numeroTelephone"></app-phone-input>
+      <ion-input id="numeroTelephone" formControlName="numeroTelephone" type="tel"></ion-input>
     </ion-item>
     <div *ngIf="createUserForm.get('numeroTelephone')?.invalid && (createUserForm.get('numeroTelephone')?.dirty || createUserForm.get('numeroTelephone')?.touched)">
       <ion-text color="danger">{{ phoneErrorMessage }}</ion-text>
@@ -62,6 +62,6 @@
     <ion-button expand="block" type="submit" [disabled]="createUserForm.invalid">Créer</ion-button>
   </form>
   <div class="login-link">
-    <p>Already have an account? <a [routerLink]="['/login']">Login here</a></p>
+    <p>Déjà un compte? <a [routerLink]="['/login']">Connectez-vous ici</a></p>
   </div>
 </ion-content>

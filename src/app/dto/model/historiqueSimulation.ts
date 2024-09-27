@@ -10,14 +10,13 @@
  * Do not edit the class manually.
  */
 import { User } from './user';
-import { SimulationPret } from './simulationPret';
+import { OffreImmobilier } from './offreImmobilier';
 
 
 export interface HistoriqueSimulation { 
     id?: number;
-    simulationPrets?: Set<SimulationPret>;
+    dateSimulation?: string;
+    offreImmobilier?: OffreImmobilier;
     user?: User;
-    dateCreated?: string;
-    lastUpdated?: string;
 }
 

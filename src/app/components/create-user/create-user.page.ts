@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../services/user/user.service';
 import { Router } from '@angular/router';
-import { User } from '../../dto/model/user';
 import { HttpClient } from '@angular/common/http';
-import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
 @Component({
   selector: 'app-create-user',
@@ -27,16 +25,15 @@ export class CreateUserPage implements OnInit {
       prenom: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       motDePasse: ['', [Validators.required, Validators.minLength(6)]],
-      numeroTelephone: ['', Validators.required],
-      adresse: ['', Validators.required],
-      nouveauteBanque: this.formBuilder.array([])
+      numeroTelephone: ['', [Validators.required, Validators.minLength(10)]],
+      adresse: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
     this.createUserForm.get('numeroTelephone')?.valueChanges.subscribe(value => {
-      const phoneNumber = parsePhoneNumberFromString(value);
-      if (phoneNumber && phoneNumber.isValid()) {
+      const phoneNumber = value;
+      if (phoneNumber && phoneNumber.length >= 10) {
         this.phoneErrorMessage = '';
       } else {
         this.phoneErrorMessage = 'Numéro de téléphone invalide';
@@ -48,7 +45,7 @@ export class CreateUserPage implements OnInit {
     const query = event.target.value;
     if (query.length > 2) {
       this.http.get(`https://nominatim.openstreetmap.org/search?q=${query}&format=json`).subscribe((data: any) => {
-        this.suggestions = data.filter((item: { type: string; }) => item.type === 'city' || item.type === 'road' || item.type === 'residential');
+        this.suggestions = data.filter((item: { type: string }) => item.type === 'city' || item.type === 'road' || item.type === 'residential');
       });
     } else {
       this.suggestions = [];
@@ -62,11 +59,11 @@ export class CreateUserPage implements OnInit {
 
   onSubmit() {
     if (this.createUserForm.valid) {
-      const user: User = this.createUserForm.value;
+      const user = this.createUserForm.value;
       this.userService.register(user).subscribe({
         next: (user) => {
           console.log('User created successfully', user);
-          if(user.id) {
+          if (user.id) {
             localStorage.setItem('userId', user.id.toString());
           }
           this.router.navigate(['/home']);
@@ -75,6 +72,8 @@ export class CreateUserPage implements OnInit {
           console.error('Error creating user', error);
         }
       });
+    } else {
+      console.error('Form is invalid');
     }
   }
 }

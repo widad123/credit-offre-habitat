@@ -15,7 +15,7 @@ export interface OffreImmobilier {
     id?: number;
     typeBien: OffreImmobilier.TypeBienEnum;
     adresse: string;
-    prix: string;
+    prix: number;
     description?: string;
     listFavoris?: number;
     imageUrls?: Array<string>;
